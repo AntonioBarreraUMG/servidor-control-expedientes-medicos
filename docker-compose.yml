@@ -1,0 +1,30 @@
+version: '3'
+services:
+  app:
+    build: .
+    container_name: node_server
+    restart: always
+    environment:
+      - LISTENING_PORT=3000
+      - JWT_SECRET_KEY=jwt_secret_key
+      - MONGO_DB_PORT=27017
+      - MONGO_DB_HOST=mongo
+      - MONGO_DB_DATABASE_NAME=database
+    volumes:
+      - node_server_data:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:latest
+    container_name: mongo_database
+    restart: always
+    volumes:
+      - mongo_database_data:/data/db
+    ports:
+      - "27017:27017"
+
+volumes:
+  node_server_data:
+  mongo_database_data:
